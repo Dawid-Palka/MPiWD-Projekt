@@ -1,0 +1,710 @@
+---
+title: "Projekt"
+author: "Dawid Pałka"
+date: "2024-10-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+#zrobic grupy studentow i wtedy patrzec jak ksztaltuja sie poszczegolne zmienne w tych grupach
+# modelowanie - sprawdzic czy zbior jest na tyle przygotowany zeby sprawdzic czy predykcja moze byc dobra
+#liniowy model predykcyjny / regresja logistyczna
+
+
+
+#Wgranie niezbędnych bibliotek
+```{r}
+library(rio)
+library(tidyverse)
+library(gridExtra)
+library(RColorBrewer)
+library(patchwork)
+library(ggrepel)
+library(ggridges)
+library(ggcorrplot)
+library(vcd)
+library(viridis)
+library(GGally)
+library(Amelia)
+```
+
+
+#Import danych, zmiana nazw kolumn, sprawdzenie braków oraz liczby rekordów
+```{r}
+data <- import("ResearchInformation3.csv")
+
+any(is.na(data))
+missmap(data, col = c("red", "green"), margins = c(5,2))
+nrow(data)
+```
+#Dane przed zmianą ich typów
+```{r}
+summary(data)
+```
+
+#Zmiana typów danych
+
+```{r}
+data$Income[data$Income == "Low (Below 15,000) "] <- "Low (Below 15,000)"
+data$Income[data$Income == "Lower middle (15,000-30,000) " | 
+              data$Income == "Lower middle (15,000-30,000)  "] <- "Lower middle (15,000-30,000)"
+data$Income[data$Income == "Upper middle (30,000-50,000) "] <- "Upper middle (30,000-50,000)"
+data$Income[data$Income == "High (Above 50,000) " | data$Income =="High (Above 50,000)  "] <- "High (Above 50,000)"
+
+```
+
+
+```{r}
+data$Department <- as.factor(data$Department)
+data$Gender <- as.factor(data$Gender)
+data$Income <- ordered(data$Income,levels=c("Low (Below 15,000)","Lower middle (15,000-30,000)",
+                                            "Upper middle (30,000-50,000)","High (Above 50,000)"))
+data$Hometown <- as.factor(data$Hometown)
+data$Computer <- ordered(data$Computer)
+data$Preparation <- ordered(data$Preparation)
+data$Gaming <- ordered(data$Gaming)
+data$Attendance <- ordered(data$Attendance, levels=c("Below 40%","40%-59%","60%-79%","80%-100%"))
+data$Job <- as.factor(data$Job)
+data$English <- ordered(data$English)
+data$Extra <- as.factor(data$Extra)
+data$Semester <- ordered(data$Semester, levels=c("2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th"))
+```
+
+```{r}
+summary(data)
+```
+
+#Charakterystyka badanych osób
+
+```{r}
+
+Departments <- data %>% 
+  group_by(Department) %>% 
+  count() %>% 
+  as.data.frame()
+
+ggplot(Departments, aes(x = "", y = n, fill = Department)) +
+  geom_col(color = "black") +
+  geom_text_repel(aes(label = paste0(round(n/sum(n)*100, 1), '%')),
+                  position = position_stack(vjust = 0.5),
+                  size = 5, 
+                  fontface = "bold", 
+                  color = "white", 
+                  box.padding = 0.5, 
+                  min.segment.length = 0) +  # Automatyczne dostosowanie pozycji etykiet
+  coord_polar(theta = "y") +
+  scale_fill_manual(values = c("#a559aa","#59a89c","#082a54","#f0c571","#e02b35","#8fd7d7","#ff9d3a","#7E4794","#008dff","#595959","#36b700")) +
+  labs(title = "Kierunek studiów") +
+  theme_void() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+
+```
+
+```{r}
+Genders <- data %>% 
+  group_by(Gender) %>% 
+  count() %>% 
+  as.data.frame()
+
+
+bar1 <- ggplot(Genders, aes(x = Gender, y = n, fill = Gender))+
+  geom_bar(stat = "identity")+
+  scale_fill_manual(values = c("#a559aa","#59a89c"))+
+  labs(title = "Rozkład płci", x = "Płeć", y = "Liczba")+
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+         axis.text = element_text(size = 10, color = "black"),
+        legend.position = "none")+
+  geom_text(aes(label = paste0(round(n/sum(n)*100, 1), '%'), vjust = -0.3))
+
+bar1
+
+
+Hometowns <- data %>% 
+  group_by(Hometown) %>% 
+  count() %>% 
+  as.data.frame()
+
+
+bar2 <- ggplot(Hometowns, aes(x = Hometown, y = n, fill = Hometown))+
+  geom_bar(stat = "identity")+
+  scale_fill_manual(values = c("#082a54","#f0c571"))+
+  labs(title = "Rozkład miejsc zamieszkania", x = "Miejsce zamieszkania", y = "Liczba")+
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+         axis.text = element_text(size = 10, color = "black"),
+        legend.position = "none")+
+  geom_text(aes(label = paste0(round(n/sum(n)*100, 1), '%'), vjust = -0.3))
+
+bar2
+
+
+Incomes <- data %>% 
+  group_by(Income) %>% 
+  count() %>% 
+  as.data.frame()
+
+bar3 <- ggplot(Incomes, aes(x = Income, y=n, fill = Income))+
+  geom_bar(stat = "identity")+
+  scale_fill_manual(values = c("#cecece","#a559aa","#59a89c","#082a54"))+
+  scale_x_discrete(labels = c('Low', 'Lower middle', 'Upper middle', 'High'))+
+  labs(title = "Rozkład Przychodów", x = "Przychód", y = "Liczba")+
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+         axis.text = element_text(size = 10, color = "black"),
+        legend.position = "none")+
+  geom_text(aes(label = paste0(round(n/sum(n)*100, 1), '%'), vjust = -0.3))
+   
+
+bar3
+
+
+
+Semesters <- data %>% 
+  group_by(Semester) %>% 
+  count() %>% 
+  as.data.frame()
+
+bar4 <- ggplot(Semesters, aes(x = n, y=Semester, fill = Semester))+
+  geom_bar(stat = "identity")+
+  scale_fill_manual(values = c("#a559aa","#59a89c","#082a54","#f0c571","#e02b35","#8fd7d7","#ff9d3a","#7E4794","#008dff","#595959","#36b700"))+
+  labs(title = "Rozkład według semestru studiów", x = "Liczba", y = "Semestr")+
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+         axis.text = element_text(size = 10, color = "black"),
+        legend.position = "none")+
+  geom_text(aes(label = paste0(round(n/sum(n)*100, 1), '%'), vjust = 0.5, hjust=-0.1))
+
+bar4
+
+grid.arrange(bar1,bar2,bar3,bar4, ncol = 2, nrow = 2)
+
+(bar1 | bar2 | bar3) 
+
+
+```
+
+```{r}
+Jobs <- data %>% 
+  group_by(Job) %>% 
+  count() %>% 
+  as.data.frame()
+
+
+pie1 <- ggplot(Jobs, aes(x = "", y = n, fill = Job)) +
+  geom_col(color = "black") +
+  geom_text(aes(label = paste0(round(n/sum(n)*100, 1), '%')),
+            position = position_stack(vjust = 0.5),
+            size = 5, 
+            fontface = "bold", 
+            color = "white",
+            hjust = 0.15,
+            vjust = -1
+            ) +
+  coord_polar(theta = "y") +
+  scale_fill_manual(values = c("#d47264","#59a89c"))+
+  labs(title = "Praca")+
+  theme_void()+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+  
+    
+Extras <- data %>% 
+  group_by(Extra) %>% 
+  count() %>% 
+  as.data.frame()
+
+pie2 <- ggplot(Extras, aes(x = "", y = n, fill = Extra)) +
+  geom_col(color = "black") +
+  geom_text(aes(label = paste0(round(n/sum(n)*100, 1), '%')),
+            position = position_stack(vjust = 0.5),
+            size = 5, 
+            fontface = "bold", 
+            color = "white")+
+  coord_polar(theta = "y") +
+  scale_fill_manual(values = c("#d47264","#59a89c"))+
+  labs(title = "Zajęcia dodatkowe")+
+  theme_void()+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+
+
+(pie1 | pie2)
+
+```
+
+#Zależności między zmiennymi
+
+##Chi kwadrat oraz Współczynnik V - Cramera 
+```{r}
+categorical_vars <- c("Department", "Gender", "Income", "Hometown", "Computer", 
+                      "Gaming", "Attendance", "English", "Extra", "Semester", "Job","Preparation")
+
+# podzbiór danych tylko z tymi kategorycznymi zmiennymi
+data[categorical_vars] <- lapply(data[categorical_vars], as.factor)
+
+n <- length(categorical_vars)
+p_values <- matrix(NA, n, n, dimnames = list(categorical_vars, categorical_vars))
+cramers_v <- matrix(NA, n, n, dimnames = list(categorical_vars, categorical_vars))
+
+
+
+for (i in 1:(n-1)) {
+  for (j in (i+1):n) {
+    # tabela kontyngencji
+    table_temp <- table(data[[categorical_vars[i]]], data[[categorical_vars[j]]])
+    
+    # Obliczenie oczekiwanych wartości
+    expected <- chisq.test(table_temp)$expected
+    
+    
+    if ((sum(expected < 5) / length(expected) <= 0.2)) {
+      # Test chi-kwadrat
+      chi_test <- chisq.test(table_temp)
+      p_values[i, j] <- chi_test$p.value
+      p_values[j, i] <- chi_test$p.value  # macierz symetryczna
+      
+      # Obliczanie Cramér's V dla istotnych wyników
+      if (chi_test$p.value < 0.05) {
+        cramers_v_value <- assocstats(table_temp)$cramer
+        cramers_v[i, j] <- cramers_v_value
+        cramers_v[j, i] <- cramers_v_value  # macierz symetryczna
+      }
+    } else {
+      # Jeśli założenie nie jest spełnione, pozostaw NA
+      p_values[i, j] <- NA
+      p_values[j, i] <- NA
+      cramers_v[i, j] <- NA
+      cramers_v[j, i] <- NA
+    }
+  }
+}
+
+
+```
+
+
+
+```{r}
+p_values_df <- as.data.frame(as.table(p_values))
+colnames(p_values_df) <- c("Zmienna1", "Zmienna2", "p_value")
+
+chi <- ggplot(p_values_df, aes(x = Zmienna1, y = Zmienna2, fill = p_value)) +
+  geom_tile() +
+  scale_fill_viridis(option = "plasma", na.value = "grey") +
+  theme_minimal() +
+  labs(title = "P-value heatmap", fill = "p-value")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+        axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+
+
+
+cramers_v_df <- as.data.frame(as.table(cramers_v))
+colnames(cramers_v_df) <- c("Zmienna1", "Zmienna2", "Cramers_V")
+
+cram <- ggplot(cramers_v_df, aes(x = Zmienna1, y = Zmienna2, fill = Cramers_V)) +
+  geom_tile() +
+  scale_fill_viridis(option = "plasma", na.value = "grey") +
+  theme_minimal() +
+  labs(title = "Cramér's V heatmap", fill = "Cramér's V")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+        axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+(chi | cram)
+```
+
+
+
+```{r}
+extraeng <- table(data$Extra, data$English)
+
+
+chi_test_extraeng <- chisq.test(extraeng)
+chi_test_extraeng$p.value
+chi_test_extraeng$expected
+
+library(rcompanion)
+assocstats(extraeng)$cramer
+cramerV(extraeng)
+
+```
+
+
+
+
+```{r}
+
+ data %>% 
+  group_by(English) %>% 
+  count(name = "Liczebność")  
+  
+
+
+library(ggmosaic)
+
+# Ulepszony wykres
+ggplot(data) +
+  geom_mosaic(aes(x = product(English), fill = Extra), color = "white") + 
+  labs(
+    title = "Związek między poziomem angielskiego, \n a uczestnictwem w zajęciach pozalekcyjnych",
+    x = "Poziom angielskiego", y = "", fill = "Uczestnictwo")+
+  theme_minimal(base_size = 12) +  
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),  
+    panel.grid.major = element_blank())+
+  scale_fill_manual(values = c("#d47264","#59a89c"))
+
+
+
+ggplot(data) +
+  geom_mosaic(aes(x = product(Attendance), fill = Extra), color = "white") + 
+  labs(
+    title = "Związek między obecnością, \n a uczestnictwem w zajęciach pozalekcyjnych",
+    x = "Obecność", y = "", fill = "Uczestnictwo")+
+  theme_minimal(base_size = 12) +  
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),  
+    panel.grid.major = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 0.5))+
+  scale_fill_manual(values = c("#d47264","#59a89c"))
+
+
+
+ ggplot(data) +
+  geom_mosaic(aes(x = product(Computer), fill = Hometown), color = "white") + 
+  labs(
+    title = "Związek między umiejętnościami obsługi komputera, \n a miejscem zamieszkania",
+    x = "Obsługa komputera", y = "", fill = "Miejsca zamieszkania")+
+  theme_minimal(base_size = 12) +  
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),  
+    panel.grid.major = element_blank(),)+
+  scale_fill_manual(values = c("#082a54","#f0c571"))
+
+
+ggplot(data) +
+  geom_mosaic(aes(x = product(Attendance), fill = Preparation), color = "white") + 
+  labs(
+    title = "Związek między Obecnością, \n a czasem spędzonym na naukę",
+    x = "Obecność", y = "", fill = "Czas poświęcony na naukę")+
+  theme_minimal(base_size = 12) +  
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),  
+    panel.grid.major = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 0.5))+
+  scale_fill_manual(values = c("#a559aa","#59a89c","#082a54"))
+
+
+
+```
+```{r}
+#Nie więcej niż 20% komórek ma liczebność oczekiwaną mniejszą niż 5.
+chisq.test(data$Extra,data$English)
+exptected <- chisq.test(data$Extra,data$English)$expected
+(sum(expected < 5) / length(expected)) 
+
+table_ex_eng <- table(data$Extra,data$English)
+#fischer
+fisher.test(table_ex_eng,simulate.p.value=TRUE)
+#monte 
+monte <- chisq.test(table_ex_eng, simulate.p.value = TRUE, B = 10000)
+monte$p.value
+```
+
+
+
+
+```{r}
+data2 <- data %>% 
+  select(HSC,SSC,Last,Overall) %>% 
+  as.data.frame()
+
+ggpairs(data2)+
+  labs(title = "Macierz wykresów rozrzutu")+
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+cor_matrix <- cor(data2, use = "complete.obs")
+corrplot(cor_matrix, method = "circle", type = "lower", tl.col = "black", tl.srt = 45)
+ggcorrplot(cor_matrix, lab = TRUE, lab_size = 3, method = "square", colors = c("red", "white", "blue"))
+  
+```
+```{r}
+ggplot(data, aes(x = Last, y = Overall)) +
+  # Punkty
+  geom_point(alpha = 0.6, color = "#0D47A1", size = 3) + 
+  # Tytuł i etykiety
+  labs(
+    title = "Relacja między średnią z ostatniego semestru a ogólną średnią",
+    x = "Średnia z ostatniego semestru",
+    y = "Ogólna średnia"
+  ) +
+  # Motyw wykresu
+  theme_light() + 
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+    axis.title = element_text(size = 14, face = "bold"),
+    axis.text = element_text(size = 12),
+    panel.grid.minor = element_blank(),  # Brak siatki pomocniczej
+    plot.margin = margin(10, 20, 10, 10)) +
+  scale_x_continuous(breaks = seq(min(data$Last), max(data$Last), by = 1)) +
+  scale_y_continuous(breaks = seq(min(data$Overall), max(data$Overall), by = 0.5))
+
+
+```
+
+```{r}
+h3a <- ggplot(data, aes(y = Attendance, x = Overall, fill = Attendance))+
+  geom_density_ridges( alpha = 1, scale = 0.8)+
+  scale_fill_manual(values = c("#a559aa","#59a89c","#082a54","#f0c571"))+
+  labs(title= "Wpływ obecności \n na średnią",
+      x= "Średnia",
+      y = "Obecność")+
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, face="bold"),
+    legend.position = "none")
+
+h3b <- ggplot(data, aes(y = Preparation, x = Overall, fill = Preparation))+
+  geom_density_ridges( alpha = 1, scale = 0.8)+
+  scale_fill_manual(values = c("#e02b35","#8fd7d7","#ff9d3a"))+
+  labs(title= "Wpływ liczby godzin nauki \n na średnią",
+      x= "Średnia",
+      y = "Liczba godzin poświęconych na naukę")+
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, face="bold"),
+    legend.position = "none")
+
+(h3a | h3b)
+
+
+h2 <-  ggplot(data, aes(y = Extra, x = Overall, fill = Extra))+
+  geom_density_ridges( alpha = 1, scale = 0.8)+
+  scale_fill_manual(values = c("#d47264","#59a89c"))+
+  labs(title= "Wpływ zajęć pozalekcyjnych\n na średnią",
+      x= "Średnia",
+      y = "Liczba godzin poświęconych na naukę")+
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, face="bold"),
+    legend.position = "none")
+
+h2
+```
+
+```{r}
+ggplot(data, aes(x=Income, y=Overall, fill=Income))+
+  geom_violin(trim=FALSE, alpha=0.7)+
+  scale_fill_manual(values = c("#7E4794","#008dff","#595959","#36b700"))+
+  geom_boxplot(width= 0.4, outlier.shape = NA)+
+  labs(title = "Wpływ zamożności studenta \na na jego wyniki w nauce",
+       x="Poziom dochodów",
+       y="Średnia")+
+  theme(plot.title = element_text(hjust = 0.5, face="bold"),
+        legend.position = "none")+
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
+```{r}
+vb1 <- ggplot(data, aes(x=Gender, y=Overall, fill=Gender))+
+  geom_violin(trim=FALSE, alpha=0.7)+
+  geom_boxplot(width= 0.4, outlier.shape = NA)+
+  scale_fill_manual(values = c("#a559aa","#59a89c"))+
+  labs(title = "Wpływ płci \na na wyniki w nauce",
+       x="Płeć",
+       y="Średnia")+
+  theme(plot.title = element_text(hjust = 0.5, face="bold"),
+        legend.position = "none")+
+   theme(axis.text.x = element_text(hjust = 1))
+
+vb2 <- ggplot(data, aes(x=Hometown, y=Overall, fill=Hometown))+
+  geom_violin(trim=FALSE, alpha=0.7)+
+  geom_boxplot(width= 0.4, outlier.shape = NA)+
+  scale_fill_manual(values = c("#082a54","#f0c571"))+
+  labs(title = "Wpływ miejsca zameszkania \na na wyniki w nauce",
+       x="Miejsce zamieszkania",
+       y="Średnia")+
+  theme(plot.title = element_text(hjust = 0.5, face="bold"),
+        legend.position = "none")+
+   theme(axis.text.x = element_text(hjust = 1))
+
+
+vb3 <- ggplot(data, aes(x=Job, y=Overall, fill=Job))+
+  geom_violin(trim=FALSE, alpha=0.7)+
+  geom_boxplot(width= 0.4, outlier.shape = NA)+
+  scale_fill_manual(values = c("#595959","#36b700"))+
+  labs(title = "Wpływ posiadania pracy \na na wyniki w nauce",
+       x="Praca",
+       y="Średnia")+
+  theme(plot.title = element_text(hjust = 0.5, face="bold"),
+        legend.position = "none")+
+   theme(axis.text.x = element_text(hjust = 1))
+
+
+vb4 <- ggplot(data, aes(x=Gaming, y=Overall, fill=Gaming))+
+  geom_violin(trim=FALSE, alpha=0.7)+
+  geom_boxplot(width= 0.4, outlier.shape = NA)+
+  scale_fill_manual(values = c("#e02b35","#8fd7d7","#ff9d3a"))+
+  labs(title = "Wpływ liczby godzin grania \na na wyniki w nauce",
+       x="Liczba godzin poświęconych na grę",
+       y="Średnia")+
+  theme(plot.title = element_text(hjust = 0.5, face="bold"),
+        legend.position = "none")+
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+vb1 | vb2 | vb3
+
+vb4
+```
+
+```{r}
+ggplot(data, aes(x = Gaming , y = Overall, colour = Gaming))+
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter()+
+  scale_colour_manual(values = c("#008dff","#595959","#36b700"))+
+  labs(title = "Wpływ liczby godzin grania \na na wyniki w nauce",
+       x="Liczba godzin poświęconych na grę",
+       y="Średnia")+
+  theme(plot.title = element_text(hjust = 0.5, face="bold"),
+        legend.position = "none")+ 
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+```{r}
+library(networkD3)
+library(dplyr)
+library(htmltools)
+
+
+data$Overallcat <- cut(
+  data$Overall,
+  breaks = c(1,2.5, 3.5, 4),  # Definiowanie granic przedziałów
+  labels = c("Low", "Medium", "High"),  # Nazwy kategorii
+  include.lowest = TRUE  # Uwzględnienie dolnej granicy
+)
+
+
+links_left <- data %>%
+  count(source = paste("Left:", data[[13]]), target = paste("Center:", data[[10]])) %>%
+  rename(value = n)
+
+links_right <- data %>%
+  count(source = paste("Center:", data[[10]]), target = paste("Right:", data[[8]])) %>%
+  rename(value = n)
+
+# Links 
+links <- bind_rows(links_left, links_right)
+
+
+nodes <- data.frame(name = unique(c(links$source, links$target)), stringsAsFactors = FALSE)
+nodes$label <- gsub("Left: |Center: |Right: ", "", nodes$name)
+
+links$source <- match(links$source, nodes$name) - 1
+links$target <- match(links$target, nodes$name) - 1
+
+sankey <- sankeyNetwork(Links = links, Nodes = nodes,
+                        Source = "source", Target = "target", Value = "value",
+                        NodeID = "label", units = "Liczność", fontSize = 12,
+                        nodeWidth = 30, nodePadding = 15, iterations = 0,
+                        width = 700, height = 500)
+
+title <- tags$div(
+  style = "font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 10px;",
+  "Religious Service Attendance"
+)
+output <- tagList(title, sankey)
+
+output
+
+
+
+
+```
+
+
+
+
+
+
+```{r}
+best2 <- data %>% 
+  filter(Gender == "Female",
+         Hometown == "City",
+         Job == "No",
+         Extra == "Yes", #wpływa na obecnosc, a ta na oceny
+         Gaming == "0-1 Hour") %>% 
+  as.data.frame()
+
+mean(best2$Overall)
+
+```
+#Analiza regresji, SLR Model
+```{r}
+
+ggplot(data, aes(x = Last, y = Overall)) +
+  # Punkty
+  geom_point(alpha = 0.6, color = "#0D47A1", size = 3) + 
+  # Linia regresji z cieniem
+  geom_smooth(method = "lm", color = "red", se = TRUE, fill = "orange", linewidth = 1.2) + 
+  # Tytuł i etykiety
+  labs(
+    title = "Relacja między średnią z ostatniego semestru a ogólną średnią",
+    x = "Średnia z ostatniego semestru",
+    y = "Ogólna średnia"
+  ) +
+  # Motyw wykresu
+  theme_light() + 
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+    axis.title = element_text(size = 14, face = "bold"),
+    axis.text = element_text(size = 12),
+    panel.grid.minor = element_blank(),  # Brak siatki pomocniczej
+    plot.margin = margin(10, 20, 10, 10)) +
+  scale_x_continuous(breaks = seq(min(data$Last), max(data$Last), by = 1)) +
+  scale_y_continuous(breaks = seq(min(data$Overall), max(data$Overall), by = 0.5))
+
+
+
+model <- lm(Overall ~ Last, data = data)
+summary(model)
+reszty <- model$residuals
+
+#założenia
+
+#Z1 (relacja liniowa)-Czy w calym obszarze zmiennosci Y reszty rozkładają się równomiernie - linia powinna być prosta
+plot(model,1) 
+#W-nek spełniony
+
+#Z2 - reszty mają rozkład normalny, standardized resudial = reszty / residual standard error (standardowy blad reszt)
+plot(model,2)
+#układają się zgodnie z rozkładem normalnym
+ggplot(data.frame(reszty), aes(x = reszty)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "skyblue", color = "black", alpha = 0.7) +
+  stat_function(fun = dnorm, args = list(mean = mean(reszty), sd = sd(reszty)), color = "red", size = 1) +
+  theme_minimal() +
+  labs(x = "Residuals",
+       y = "Frequency")
+
+
+#Z3 homoscedastyczność - reszty maja porownywalna wariancje w calym obszarze zmiennosci zmiennej x
+plot(model,3) #linia czerwona pokazuje co sie dzieje z wariancja reszt
+
+
+plot(model,4)
+
+#Z4 znaczenie wartosci ekstremalnych
+plot(model,5) # wartosci wyraznie odbierajace od lini wzgleden osi y - outlier
+              # wartosci odbiegajace znacznie od innych na osi x - High-leverage point
+
+
+data3 <- data[c(122,291,352),]
+ggplot()+
+  geom_point(data = data, aes(x = Last, y = Overall))+
+  geom_point(data = data3, aes(x = Last, y = Overall), color = "red", size = 2)
+
+
+
+
+```
+
+
+
+
