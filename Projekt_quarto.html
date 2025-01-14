@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Projekt_quarto</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Projekt_quarto_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Projekt_quarto_files/libs/quarto-html/quarto.js"></script>
+<script src="Projekt_quarto_files/libs/quarto-html/popper.min.js"></script>
+<script src="Projekt_quarto_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Projekt_quarto_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Projekt_quarto_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Projekt_quarto_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Projekt_quarto_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Projekt_quarto_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Projekt_quarto_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="Projekt_quarto_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="Projekt_quarto_files/libs/d3-4.5.0/d3.min.js"></script>
+
+<script src="Projekt_quarto_files/libs/sankey-1/sankey.js"></script>
+
+<script src="Projekt_quarto_files/libs/sankeyNetwork-binding-0.4/sankeyNetwork.js"></script>
+
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#analiza-ankiety-przeprowadzonej-wśród-studentów-uniwersytetu-w-malezji" id="toc-analiza-ankiety-przeprowadzonej-wśród-studentów-uniwersytetu-w-malezji" class="nav-link active" data-scroll-target="#analiza-ankiety-przeprowadzonej-wśród-studentów-uniwersytetu-w-malezji"><span class="header-section-number">1</span> Analiza ankiety przeprowadzonej wśród studentów uniwersytetu w Malezji</a></li>
+  <li><a href="#wprowadzenie-do-zbioru" id="toc-wprowadzenie-do-zbioru" class="nav-link" data-scroll-target="#wprowadzenie-do-zbioru"><span class="header-section-number">2</span> Wprowadzenie do zbioru</a></li>
+  <li><a href="#problemy-badawcze-i-hipotezy" id="toc-problemy-badawcze-i-hipotezy" class="nav-link" data-scroll-target="#problemy-badawcze-i-hipotezy"><span class="header-section-number">3</span> Problemy badawcze i hipotezy</a>
+  <ul class="collapse">
+  <li><a href="#problemy-badawcze" id="toc-problemy-badawcze" class="nav-link" data-scroll-target="#problemy-badawcze"><span class="header-section-number">3.1</span> Problemy badawcze</a></li>
+  <li><a href="#hipotezy" id="toc-hipotezy" class="nav-link" data-scroll-target="#hipotezy"><span class="header-section-number">3.2</span> Hipotezy</a></li>
+  </ul></li>
+  <li><a href="#wgranie-niezbędnych-bibliotek" id="toc-wgranie-niezbędnych-bibliotek" class="nav-link" data-scroll-target="#wgranie-niezbędnych-bibliotek"><span class="header-section-number">4</span> Wgranie niezbędnych bibliotek</a></li>
+  <li><a href="#przegląd-danych" id="toc-przegląd-danych" class="nav-link" data-scroll-target="#przegląd-danych"><span class="header-section-number">5</span> Przegląd danych</a>
+  <ul class="collapse">
+  <li><a href="#import-danych-zmiana-nazw-kolumn-sprawdzenie-braków-oraz-liczby-rekordów" id="toc-import-danych-zmiana-nazw-kolumn-sprawdzenie-braków-oraz-liczby-rekordów" class="nav-link" data-scroll-target="#import-danych-zmiana-nazw-kolumn-sprawdzenie-braków-oraz-liczby-rekordów"><span class="header-section-number">5.1</span> Import danych, zmiana nazw kolumn, sprawdzenie braków oraz liczby rekordów</a></li>
+  <li><a href="#dane-przed-zmianą-ich-typów" id="toc-dane-przed-zmianą-ich-typów" class="nav-link" data-scroll-target="#dane-przed-zmianą-ich-typów"><span class="header-section-number">5.2</span> Dane przed zmianą ich typów</a></li>
+  <li><a href="#zmiana-typów-danych" id="toc-zmiana-typów-danych" class="nav-link" data-scroll-target="#zmiana-typów-danych"><span class="header-section-number">5.3</span> Zmiana typów danych</a></li>
+  <li><a href="#zamiana-typów-zmiennych" id="toc-zamiana-typów-zmiennych" class="nav-link" data-scroll-target="#zamiana-typów-zmiennych"><span class="header-section-number">5.4</span> Zamiana typów zmiennych</a></li>
+  </ul></li>
+  <li><a href="#wstępna-charakterystyka-badanych-osób" id="toc-wstępna-charakterystyka-badanych-osób" class="nav-link" data-scroll-target="#wstępna-charakterystyka-badanych-osób"><span class="header-section-number">6</span> Wstępna charakterystyka badanych osób</a></li>
+  <li><a href="#zależności-między-zmiennymi" id="toc-zależności-między-zmiennymi" class="nav-link" data-scroll-target="#zależności-między-zmiennymi"><span class="header-section-number">7</span> Zależności między zmiennymi</a>
+  <ul class="collapse">
+  <li><a href="#zmienne-kategoryczne" id="toc-zmienne-kategoryczne" class="nav-link" data-scroll-target="#zmienne-kategoryczne"><span class="header-section-number">7.1</span> Zmienne kategoryczne</a></li>
+  <li><a href="#zmienne-numeryczne" id="toc-zmienne-numeryczne" class="nav-link" data-scroll-target="#zmienne-numeryczne"><span class="header-section-number">7.2</span> Zmienne numeryczne</a></li>
+  <li><a href="#różne-typy-zmiennych" id="toc-różne-typy-zmiennych" class="nav-link" data-scroll-target="#różne-typy-zmiennych"><span class="header-section-number">7.3</span> Różne typy zmiennych</a></li>
+  </ul></li>
+  <li><a href="#sylwetka-idealnego-kandydata" id="toc-sylwetka-idealnego-kandydata" class="nav-link" data-scroll-target="#sylwetka-idealnego-kandydata"><span class="header-section-number">8</span> Sylwetka idealnego kandydata (?)</a></li>
+  <li><a href="#klastrowanie-zbioru" id="toc-klastrowanie-zbioru" class="nav-link" data-scroll-target="#klastrowanie-zbioru"><span class="header-section-number">9</span> Klastrowanie zbioru</a>
+  <ul class="collapse">
+  <li><a href="#szukanie-odpowiedniej-liczby-klastrów" id="toc-szukanie-odpowiedniej-liczby-klastrów" class="nav-link" data-scroll-target="#szukanie-odpowiedniej-liczby-klastrów"><span class="header-section-number">9.1</span> Szukanie odpowiedniej liczby klastrów</a></li>
+  <li><a href="#klastrowaie-za-pomocą-algorytmu-kprototypes" id="toc-klastrowaie-za-pomocą-algorytmu-kprototypes" class="nav-link" data-scroll-target="#klastrowaie-za-pomocą-algorytmu-kprototypes"><span class="header-section-number">9.2</span> Klastrowaie za pomocą algorytmu kprototypes</a></li>
+  </ul></li>
+  <li><a href="#analiza-otrzymanych-klastrów" id="toc-analiza-otrzymanych-klastrów" class="nav-link" data-scroll-target="#analiza-otrzymanych-klastrów"><span class="header-section-number">10</span> Analiza otrzymanych klastrów</a>
+  <ul class="collapse">
+  <li><a href="#sylwetka-kandydata-idealnego-2" id="toc-sylwetka-kandydata-idealnego-2" class="nav-link" data-scroll-target="#sylwetka-kandydata-idealnego-2"><span class="header-section-number">10.1</span> Sylwetka kandydata idealnego 2</a></li>
+  <li><a href="#analiza-czynników-dotyczących-bycia-studentem" id="toc-analiza-czynników-dotyczących-bycia-studentem" class="nav-link" data-scroll-target="#analiza-czynników-dotyczących-bycia-studentem"><span class="header-section-number">10.2</span> Analiza czynników dotyczących bycia studentem</a></li>
+  </ul></li>
+  <li><a href="#analiza-regresji-slr-model" id="toc-analiza-regresji-slr-model" class="nav-link" data-scroll-target="#analiza-regresji-slr-model"><span class="header-section-number">11</span> Analiza regresji, SLR Model</a>
+  <ul class="collapse">
+  <li><a href="#założenia" id="toc-założenia" class="nav-link" data-scroll-target="#założenia"><span class="header-section-number">11.1</span> Założenia</a></li>
+  </ul></li>
+  <li><a href="#link-do-github" id="toc-link-do-github" class="nav-link" data-scroll-target="#link-do-github"><span class="header-section-number">12</span> Link do Github</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Projekt_quarto</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="analiza-ankiety-przeprowadzonej-wśród-studentów-uniwersytetu-w-malezji" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Analiza ankiety przeprowadzonej wśród studentów uniwersytetu w Malezji</h1>
+<p>Wpływ czynników społeczno-ekonomicznych, sytuacji rodzinnej oraz indywidualnych predyspozycji na wyniki akademickie. <strong>Celem</strong> niniejszego projektu jest zbadanie zależności pomiędzy różnymi czynnikami z życia studentów, a ich wynikami w bieżących semestrach. Przeprowadzenie tej analizy może przynieść istotne korzyści w kilku kontekstach: dla instytucji edukacyjnych szczególnie niepublicznych, dla rodziców, dla młodzieży.</p>
+</section>
+<section id="wprowadzenie-do-zbioru" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Wprowadzenie do zbioru</h1>
+<p>Zbiór jest reprezentacją wyników ankiety przeprowadzonej wśród studentów Uniwersytetu w Malezji <em>(został dodany 07.10.2024r.)</em>. Zawiera on odpowiedzi na pytania dotyczące zarówno edukacji, jak i życia poza szkolnego. Zawiera niemalże <strong>500 obserwacji oraz 16 cech</strong> (department,gender,HSC,SSC,income,hometown,computer,preparation,gaming,attendance,job,english,extra,semester,last,overall).</p>
+</section>
+<section id="problemy-badawcze-i-hipotezy" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Problemy badawcze i hipotezy</h1>
+<section id="problemy-badawcze" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="problemy-badawcze"><span class="header-section-number">3.1</span> Problemy badawcze</h2>
+<p><strong>1.</strong>Jak czynniki demograficzne oraz społeczno-ekonomiczne wpływają na osiągnięcia edukacyjne? <br> <strong>2.</strong>Czy aktywności pozalekcyjne mają pozytywny wpływ na wyniki akademickie studentów? <br> <strong>3.</strong>Jak regularna obecność na zajęciach przekłada się na wyniki akademickie? <br></p>
+</section>
+<section id="hipotezy" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="hipotezy"><span class="header-section-number">3.2</span> Hipotezy</h2>
+<p><strong>1.</strong>Studenci z wyższym statusem społeczno-ekonomicznym osiągają lepsze wyniki akademickie niż studenci z niższym statusem. <br> <strong>2.</strong>Studenci angażujący się w aktywności pozalekcyjne osiągają lepsze wyniki akademickie niż ci, którzy nie biorą udziału w takich zajęciach.<br> <strong>3.</strong>Większa liczba godzin poświęconych na naukę i obecność na zajęciach jest skorelowana z lepszymi wynikami w testach.<br></p>
+</section>
+</section>
+<section id="wgranie-niezbędnych-bibliotek" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Wgranie niezbędnych bibliotek</h1>
+</section>
+<section id="przegląd-danych" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Przegląd danych</h1>
+<section id="import-danych-zmiana-nazw-kolumn-sprawdzenie-braków-oraz-liczby-rekordów" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="import-danych-zmiana-nazw-kolumn-sprawdzenie-braków-oraz-liczby-rekordów"><span class="header-section-number">5.1</span> Import danych, zmiana nazw kolumn, sprawdzenie braków oraz liczby rekordów</h2>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 493</code></pre>
+</div>
+</div>
+<p>Zauważamy, że zbiór ten <strong>nie posiada żadnych braków danych</strong> oraz przechowuje <strong>493 rekordy</strong>.</p>
+</section>
+<section id="dane-przed-zmianą-ich-typów" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="dane-przed-zmianą-ich-typów"><span class="header-section-number">5.2</span> Dane przed zmianą ich typów</h2>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  Department           Gender               HSC             SSC       
+ Length:493         Length:493         Min.   :2.170   Min.   :3.000  
+ Class :character   Class :character   1st Qu.:3.830   1st Qu.:4.680  
+ Mode  :character   Mode  :character   Median :4.170   Median :4.940  
+                                       Mean   :4.157   Mean   :4.768  
+                                       3rd Qu.:4.500   3rd Qu.:5.000  
+                                       Max.   :5.000   Max.   :5.000  
+    Income            Hometown            Computer     Preparation       
+ Length:493         Length:493         Min.   :1.000   Length:493        
+ Class :character   Class :character   1st Qu.:3.000   Class :character  
+ Mode  :character   Mode  :character   Median :3.000   Mode  :character  
+                                       Mean   :3.339                     
+                                       3rd Qu.:4.000                     
+                                       Max.   :5.000                     
+    Gaming           Attendance            Job               English    
+ Length:493         Length:493         Length:493         Min.   :1.00  
+ Class :character   Class :character   Class :character   1st Qu.:3.00  
+ Mode  :character   Mode  :character   Mode  :character   Median :4.00  
+                                                          Mean   :3.57  
+                                                          3rd Qu.:4.00  
+                                                          Max.   :5.00  
+    Extra             Semester              Last          Overall     
+ Length:493         Length:493         Min.   :1.000   Min.   :1.000  
+ Class :character   Class :character   1st Qu.:2.810   1st Qu.:2.880  
+ Mode  :character   Mode  :character   Median :3.250   Median :3.270  
+                                       Mean   :3.164   Mean   :3.188  
+                                       3rd Qu.:3.670   3rd Qu.:3.680  
+                                       Max.   :4.000   Max.   :4.000  </code></pre>
+</div>
+</div>
+</section>
+<section id="zmiana-typów-danych" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="zmiana-typów-danych"><span class="header-section-number">5.3</span> Zmiana typów danych</h2>
+</section>
+<section id="zamiana-typów-zmiennych" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="zamiana-typów-zmiennych"><span class="header-section-number">5.4</span> Zamiana typów zmiennych</h2>
+<p>Ze względu na charakter danych oraz fakt, że większość z nich, mimo struktury odpowiadającej typowi factor, była zapisana jako character, konieczna była ich <strong>konwersja do właściwego typu</strong> (umożliwiającego dalszą analizę).</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                                       Department     Gender         HSC       
+ Computer Science and Engineering           :443   Female:165   Min.   :2.170  
+ English                                    : 14   Male  :328   1st Qu.:3.830  
+ Journalism, Communication and Media Studies: 13                Median :4.170  
+ Political Science                          :  6                Mean   :4.157  
+ Business Administration                    :  5                3rd Qu.:4.500  
+ Economics                                  :  4                Max.   :5.000  
+ (Other)                                    :  8                               
+      SSC                                 Income       Hometown   Computer
+ Min.   :3.000   Low (Below 15,000)          : 74   City   :213   1: 58   
+ 1st Qu.:4.680   Lower middle (15,000-30,000):180   Village:280   2: 42   
+ Median :4.940   Upper middle (30,000-50,000):110                 3:183   
+ Mean   :4.768   High (Above 50,000)         :129                 4: 95   
+ 3rd Qu.:5.000                                                    5:115   
+ Max.   :5.000                                                            
+                                                                          
+            Preparation                Gaming        Attendance   Job     
+ 0-1 Hour         :218   0-1 Hour         : 50   Below 40%: 11   No :459  
+ 2-3 Hours        :228   2-3 Hours        :141   40%-59%  : 68   Yes: 34  
+ More than 3 Hours: 47   More than 3 Hours:302   60%-79%  :217            
+                                                 80%-100% :197            
+                                                                          
+                                                                          
+                                                                          
+ English Extra        Semester        Last          Overall     
+ 1:  8   No :288   2nd    :183   Min.   :1.000   Min.   :1.000  
+ 2: 38   Yes:205   10th   : 57   1st Qu.:2.810   1st Qu.:2.880  
+ 3:176             8th    : 54   Median :3.250   Median :3.270  
+ 4:207             3rd    : 35   Mean   :3.164   Mean   :3.188  
+ 5: 64             5th    : 33   3rd Qu.:3.670   3rd Qu.:3.680  
+                   9th    : 30   Max.   :4.000   Max.   :4.000  
+                   (Other):101                                  </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="wstępna-charakterystyka-badanych-osób" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Wstępna charakterystyka badanych osób</h1>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br> Lwią część ankietowanych stanowią osoby z kierunku <em>“Computer Science and Engineering”</em>, co może świadczyć, o tym, że badane osoby mają raczej <strong>ścisłe umysły</strong>, o czym należy pamiętać w kontekście analizy.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Powyższe wizualizacje ukazują rozkład poszczególnych cech - zauważamy, że większość ankietowanych jest mężczyznami, pochodzi ze wsi oraz charakteryzuje się średnią zamożnością. Jeśli chodzi o semestr studiów dominują osoby będące na początku swojej akademickiej ścieżki (2 semestr), ale zauważalną część stanowią także osoby z dalszych lat (8,11 semestr).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br> Większość ankietowanych nie posiada pracy. Natomiast w kontekście uczestnictwa w zajęciach dodatkowych przeważają osoby, które nie biorą udziału w tego rodzaju aktywnościach.</p>
+</section>
+<section id="zależności-między-zmiennymi" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Zależności między zmiennymi</h1>
+<section id="zmienne-kategoryczne" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="zmienne-kategoryczne"><span class="header-section-number">7.1</span> Zmienne kategoryczne</h2>
+<section id="test-chi-kwadrat-oraz-współczynnik-v---cramera" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="test-chi-kwadrat-oraz-współczynnik-v---cramera"><span class="header-section-number">7.1.1</span> Test Chi kwadrat oraz Współczynnik V - Cramera</h3>
+<p><strong>Test Chi-kwadrat</strong> służy do sprawdzania zależności między zmiennymi kategorycznymi (które stanowią 12/16 zmiennych w badanym zbiorze). Porównuje oczekiwane częstości z zaobserwowanymi w tabeli kontyngencji, aby ocenić, czy różnice są istotne statystycznie. <br> <strong>Współczynnik V-Cramera</strong> to miara siły związku między zmiennymi kategorycznymi, obliczana na podstawie wyniku testu Chi-kwadrat. Przyjmuje wartości od 0 (brak związku) do 1 (silny związek), co pozwala określić stopień powiązania między zmiennymi.</p>
+</section>
+<section id="wizualizacja-otrzymanych-wyników" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="wizualizacja-otrzymanych-wyników"><span class="header-section-number">7.1.2</span> Wizualizacja otrzymanych wyników</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Spośród obliczonych wartości p-value wybieramy, te pary zmiennych dla których wartość jest <strong>mniejsza/równa 0,05</strong> (odcienie granatowe). Dodatkowo sprawdzone zostało założenie, że <strong>maksymalnie 20% komórek w tabeli kontyngencji może mieć oczekiwaną częstość mniejszą niż 5</strong>. Jeśli ten warunek nie byłby spełniony, wyniki testu mogłby być niewiarygodne.<br>
+Dla par spełniających powyższe warunki obliczony został współczynnik V Cramera, w przypadku którego większa wartość świadczy o większej sile związku.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wykres ten niesie za sobą niezywkle ciekawą, a zarazem niespodziewaną konkluzję. Zauważamy, że wśród osób oceniających swoje zdolności komunikacji w języku angielskim na 4 większość nie uczestniczy w zajęciach dodatkowych. Natomiast przy ocenie zdolności językowych na poziomie o jeden wiekszym (5) obserwujemy odwrotną tendencję – przeważają osoby biorące udział w takich zajęciach. <br> Jedną z potencjalnych przyczyn tak nieoczekiwanej zależności może być <strong>przecenianie swoich zdolności językowych</strong> przez osoby ankietowane. Zaangażowanie w zajęcia dodatkowe może bowiem wynikać z większej pewności siebie osób lepiej komunikujących się w języku angielskim lub z faktu, że takowe aktywności częściej wymagają takich umiejętności, co zachęca osoby o wyższym poziomie języka do udziału.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Powyższy wykres ujawnia niemalże <em>“liniową”</em> zależność pomiędzy procentem obecności na zajęciach, a uczestnictwem w zajęciach dodatkowych - wraz ze wzrostem obecności, rośnie także odsetek osób biorących udział w aktywnościach pozalekcyjnych. Może to świadczyć o lepszej zdolności do zarządzania czasem przez osoby angażujące się w zajęcia dodatkowe. Wzrost liczby obowiązków może sprzyjać wyższemu poziomowi dyscypliny oraz sygnalizować wyższy poziom ambitności.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Szczególną uwagę warto zwrócić na skrajne wartości przy poziomie obsługi komputera. Ujawniają one bowiem intuicyjną, a zaraz stereotypową zależność - osoby pochodzące ze wsi znacznie słabiej <em>(1)</em> radzą sobie z używaniem technologii niźli osoby pochodzące z miast <em>(5)</em>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wnioskiem płynącym z powyższej wizualizacji jest fakt, iż wraz ze wzrostem procentu obecności na zajęciach rośnie także liczba godzin poświęconych na samodzielną naukę. Sugeruje to ambitność osób, które pomimo uczestnictwa w zajęciach starają się poświęcać swój wolny czas na dodatkowe pozyskiwanie wiedzy i trenowanie zdobytych umiejętności.</p>
+</section>
+</section>
+<section id="zmienne-numeryczne" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="zmienne-numeryczne"><span class="header-section-number">7.2</span> Zmienne numeryczne</h2>
+<section id="poszukiwanie-zależności" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="poszukiwanie-zależności"><span class="header-section-number">7.2.1</span> Poszukiwanie zależności</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-16-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Powyższe wykresy nakreśliły wstępne zależności, które warto było zbadać. W szczególności przedstawiają one wykresy gęstości, wykresy rozrzutu dla każdej pary zmiennych oraz współczynnik korelacji. <br> Jedyną parą zmiennych, dla której można dostrzec zależność są zmienne <em>Last</em> oraz <em>Overall</em>.</p>
+</section>
+<section id="wizualizacje" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="wizualizacje"><span class="header-section-number">7.2.2</span> Wizualizacje</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Dla wspomnianych zmiennych wykreślony rysunek ukazuje ich niemalże <strong>liniową</strong> zależność, co dowodzi, że średnia z ostatniego semestru wpływa na średnią ogółem. Im wyższa jest pierwsza z nim, tym wyższa jest także ta druga.</p>
+</section>
+</section>
+<section id="różne-typy-zmiennych" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="różne-typy-zmiennych"><span class="header-section-number">7.3</span> Różne typy zmiennych</h2>
+<p>Analiza zależności pomiędzy różnymi typami zmiennych pozwoliła uzyskać odpowiedzi na postawione w projekcie <strong>problemy badawcze</strong> oraz <strong>hipotezy</strong>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wizualizacje te pozwalają odpowiedzieć na hipotezę oraz problem badawczy nr <em>3</em>. <br> Hipotezę możemy przyjąć za prawdziwą, gdyż zauważamy, iż wraz ze wzrostem godzin poświęconych na naukę/procentem obecności rośnie także średnia ocen. <br> Z kolei w nawiązaniu do problemu badawczego stwierdzamy, że regularna obecność na zajęciach wpływa w pozytywny sposób na wyniki akademickie.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wizualizacja ta pozwala odpowiedzieć na hipotezę oraz problem badawczy nr <em>2</em>. <br> Hipoteza ponownie okazała się być trafna, zgodnie z powyższym wykresem widzimy, że osoby uczestniczące w zajęciach dodatkowych osiągają lepsze wyniki w nauce niż ci, którzy nie biorą udziału w takich zajęciach. <br> Z kolei w nawiązaniu do problemu badawczego stwierdzamy, iż aktywności pozalekcyjne mają pozytywny wpływ na wyniki akademickie studentów.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wykres ten pozwala odpowiedzieć na hipotezę nr <em>1</em>. <br> Odrzucamy ją, gdyż zauważamy, że poziom dochodów w rodzinie studenta nie ma zauważalnego wpływu na jego wyniki w nauce. Mediana i rozkład dla każdego z poziomu dochodów są względnie na podobnym poziomie.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Z kolei powyższe wizualizacje nawiązują do problemu badawczego nr <em>1</em>. <br> Stwierdzić można bowiem, iż żaden z czynników: poziom dochodu, miejsce zamieszkania, posiadanie pracy nie wpływa znacząco na wyniki osiągane podczas studiów. W kontekście płci zauważamy lekką przewagę kobiet nad mężczyznami. Wpływ na średnią ma jednak liczba godzin poświęconych na gry - im mniejsza, tym lepsze wyniki w nauce (należy jednak mieć na uwadze nierównomierne rozłożenie obserwacji wśród kategorii).</p>
+</section>
+</section>
+<section id="sylwetka-idealnego-kandydata" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Sylwetka idealnego kandydata (?)</h1>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.7597</code></pre>
+</div>
+</div>
+<p>W wyniku powyższej analizy naturalnym wydawało się tworzenie sylwetki kandydata idealnego <em>(w odpowiedzi na postawione w projekcie wyzwania)</em>. Po zastosowaniu odpowiednich kryteriów otrzymano zbiór osób których średnia ocen wynosi <strong>3,75</strong> (gdzie 4,0 stanowi maksymalną możliwą do zdobycia średnią). Problem jednak stanowi mała reprezentatywność próbki, gdyż jest to tylko i wyłącznie 10 osób.</p>
+</section>
+<section id="klastrowanie-zbioru" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Klastrowanie zbioru</h1>
+<p>Pozostając w obowiązku reakcji na poruszony powyżej problem, postanowiono dokonać klastryzacji zbioru.</p>
+<section id="szukanie-odpowiedniej-liczby-klastrów" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="szukanie-odpowiedniej-liczby-klastrów"><span class="header-section-number">9.1</span> Szukanie odpowiedniej liczby klastrów</h2>
+<p>Zadanie to rozpoczęło się od znalezienia optymalnej liczby klastrów przy zastosowaniu <strong>kryterium sylwetkowego</strong> oraz <strong>metody łokciowej</strong>.</p>
+<section id="kryterium-sylwetkowe" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="kryterium-sylwetkowe"><span class="header-section-number">9.1.1</span> Kryterium sylwetkowe</h3>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 </code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="metoda-łokciowa" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="metoda-łokciowa"><span class="header-section-number">9.1.2</span> Metoda Łokciowa</h3>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 
+
+# NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 
+
+# NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 
+
+# NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 
+
+# NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 
+
+# NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 
+
+# NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 
+
+# NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 
+
+# NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 
+
+# NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 0.5504851 </code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>W przypadku kryterium sylwetkowego szukamy liczby klastrów, dla której wskaźnik sylwetki jest najwyższy. Zaś metoda łokciowa polega na odnlezieniu <em>“łokcia”</em> na wykresie. Obie metody dały pokrywające się wyniki - 2 jest optymalną liczbą klastrów.</p>
+</section>
+</section>
+<section id="klastrowaie-za-pomocą-algorytmu-kprototypes" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="klastrowaie-za-pomocą-algorytmu-kprototypes"><span class="header-section-number">9.2</span> Klastrowaie za pomocą algorytmu kprototypes</h2>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># NAs in variables:
+ Department      Gender         HSC         SSC      Income    Hometown 
+          0           0           0           0           0           0 
+   Computer Preparation      Gaming  Attendance         Job     English 
+          0           0           0           0           0           0 
+      Extra    Semester        Last     Overall 
+          0           0           0           0 
+0 observation(s) with NAs.
+
+Estimated lambda: 1.862009 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Distance type: huang 
+
+Numeric predictors: 4 
+Categorical predictors: 12 
+Lambda: 1.862009 
+
+Number of Clusters: 2 
+Cluster sizes: 286 207 
+Within cluster error: 3329.195 2261.964 
+
+Cluster prototypes:
+                        Department Gender        HSC        SSC
+1 Computer Science and Engineering   Male  0.2428174  0.1208684
+2 Computer Science and Engineering   Male -0.3354868 -0.1669969
+                        Income Hometown Computer Preparation            Gaming
+1 Lower middle (15,000-30,000)  Village        3   2-3 Hours More than 3 Hours
+2 Lower middle (15,000-30,000)  Village        3    0-1 Hour More than 3 Hours
+  Attendance Job English Extra Semester       Last    Overall
+1   80%-100%  No       3   Yes      2nd  0.6161225  0.6325915
+2    60%-79%  No       4    No      2nd -0.8512611 -0.8740153</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        Department Gender  HSC  SSC
+1          Business Administration   Male 4.17 4.84
+2          Business Administration Female 4.92 5.00
+3          Business Administration   Male 5.00 4.83
+4          Business Administration   Male 4.00 4.50
+5          Business Administration Female 2.19 3.17
+6 Computer Science and Engineering   Male 4.75 4.05
+                        Income Hometown Computer       Preparation
+1           Low (Below 15,000)  Village        3 More than 3 Hours
+2 Upper middle (30,000-50,000)     City        3          0-1 Hour
+3 Lower middle (15,000-30,000)  Village        3          0-1 Hour
+4          High (Above 50,000)     City        5 More than 3 Hours
+5 Lower middle (15,000-30,000)  Village        3          0-1 Hour
+6 Lower middle (15,000-30,000)  Village        3          0-1 Hour
+             Gaming Attendance Job English Extra Semester  Last Overall Cluster
+1          0-1 Hour   80%-100%  No       3   Yes      6th 3.220   3.350       1
+2          0-1 Hour   80%-100%  No       3   Yes      7th 3.467   3.467       1
+3 More than 3 Hours   80%-100%  No       4   Yes      3rd 4.000   3.720       1
+4 More than 3 Hours   80%-100%  No       5   Yes      4th 3.800   3.750       1
+5         2-3 Hours   80%-100%  No       3   Yes      4th 3.940   3.940       1
+6 More than 3 Hours  Below 40%  No       4    No      2nd 1.000   1.000       2</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-26-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Skorzystano z modelu kprototypes, gdyż umożliwia on wykorzystanie zarówno zmiennych kategorycznych jak i numerycznych. Wyniki podziału przedstawione zostały na wykresach. Klastry są względnie podobnego rozmiaru - 286 oraz 207 obserwacji.</p>
+</section>
+</section>
+<section id="analiza-otrzymanych-klastrów" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Analiza otrzymanych klastrów</h1>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Zauważamy zdecydowaną przewagę <strong>klastra 1</strong> w kontekście średniej ocen.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                                       Department     Gender         HSC       
+ Computer Science and Engineering           :244   Female:108   Min.   :2.190  
+ English                                    : 12   Male  :178   1st Qu.:3.947  
+ Journalism, Communication and Media Studies: 10                Median :4.250  
+ Business Administration                    :  5                Mean   :4.289  
+ Political Science                          :  5                3rd Qu.:4.580  
+ Economics                                  :  4                Max.   :5.000  
+ (Other)                                    :  6                               
+      SSC                                Income       Hometown   Computer
+ Min.   :3.00   Low (Below 15,000)          : 48   City   :124   1: 29   
+ 1st Qu.:4.75   Lower middle (15,000-30,000):102   Village:162   2: 18   
+ Median :5.00   Upper middle (30,000-50,000): 63                 3:105   
+ Mean   :4.81   High (Above 50,000)         : 73                 4: 51   
+ 3rd Qu.:5.00                                                    5: 83   
+ Max.   :5.00                                                            
+                                                                         
+            Preparation                Gaming        Attendance   Job     
+ 0-1 Hour         : 68   0-1 Hour         : 45   Below 40%:  1   No :268  
+ 2-3 Hours        :180   2-3 Hours        :111   40%-59%  : 10   Yes: 18  
+ More than 3 Hours: 38   More than 3 Hours:130   60%-79%  : 91            
+                                                 80%-100% :184            
+                                                                          
+                                                                          
+                                                                          
+ English Extra        Semester        Last          Overall      Cluster
+ 1:  5   No :114   2nd    :112   Min.   :1.820   Min.   :2.530   1:286  
+ 2: 18   Yes:172   10th   : 40   1st Qu.:3.320   1st Qu.:3.330   2:  0  
+ 3:155             8th    : 24   Median :3.605   Median :3.600          
+ 4: 48             4th    : 21   Mean   :3.559   Mean   :3.563          
+ 5: 60             3rd    : 16   3rd Qu.:3.837   3rd Qu.:3.750          
+                   5th    : 15   Max.   :4.000   Max.   :4.000          
+                   (Other): 58                                          </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                       Department     Gender         HSC       
+ Computer Science and Engineering           :199   Female: 57   Min.   :2.170  
+ Journalism, Communication and Media Studies:  3   Male  :150   1st Qu.:3.580  
+ English                                    :  2                Median :4.000  
+ Political Science                          :  1                Mean   :3.973  
+ Public Health                              :  1                3rd Qu.:4.440  
+ Sociology                                  :  1                Max.   :5.000  
+ (Other)                                    :  0                               
+      SSC                                 Income      Hometown   Computer
+ Min.   :3.060   Low (Below 15,000)          :26   City   : 89   1:29    
+ 1st Qu.:4.610   Lower middle (15,000-30,000):78   Village:118   2:24    
+ Median :4.820   Upper middle (30,000-50,000):47                 3:78    
+ Mean   :4.709   High (Above 50,000)         :56                 4:44    
+ 3rd Qu.:5.000                                                   5:32    
+ Max.   :5.000                                                           
+                                                                         
+            Preparation                Gaming        Attendance   Job     
+ 0-1 Hour         :150   0-1 Hour         :  5   Below 40%: 10   No :191  
+ 2-3 Hours        : 48   2-3 Hours        : 30   40%-59%  : 58   Yes: 16  
+ More than 3 Hours:  9   More than 3 Hours:172   60%-79%  :126            
+                                                 80%-100% : 13            
+                                                                          
+                                                                          
+                                                                          
+ English Extra        Semester       Last          Overall      Cluster
+ 1:  3   No :174   2nd    :71   Min.   :1.000   Min.   :1.000   1:  0  
+ 2: 20   Yes: 33   8th    :30   1st Qu.:2.330   1st Qu.:2.350   2:207  
+ 3: 21             3rd    :19   Median :2.750   Median :2.750          
+ 4:159             5th    :18   Mean   :2.618   Mean   :2.671          
+ 5:  4             10th   :17   3rd Qu.:2.995   3rd Qu.:3.000          
+                   6th    :16   Max.   :3.560   Max.   :3.700          
+                   (Other):36                                          </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.562752</code></pre>
+</div>
+</div>
+<p>Powyższe podsumowania pozwoliły na zauważenie ogólnych różnic i tendencji dla poszczególnych klastrów. Dodatkowo zauważamy, że średnia ocen dla klastra 1 jest bardzo wysoka i wynosi <strong>3,56</strong>.</p>
+<section id="sylwetka-kandydata-idealnego-2" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="sylwetka-kandydata-idealnego-2"><span class="header-section-number">10.1</span> Sylwetka kandydata idealnego 2</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Zauważamy, iż w klastrze <strong>1</strong> stosunek liczby kobiet do mężczyzn jest znacznie bardziej wyrównany niż w przypadku klastra 2. Oznacza to, że kobiety mogą osiągać lepsze wyniki w nauce.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-30-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Niesamowicie ciekawą zależność ujawniają powyższe wizualizacje. Okazuje się, że w grupie <em>“lepszych”</em> studentów poziom języka angielskiego jest raczej niższy niż w przypadku studentów <em>“słabszych”</em>. Stąd możemy wysnuć refleksję, iż znajomość języka obcego wcale nie ma tak dużego wpływu na wyniki akademickie jak mogłoby się to wydawać.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Powyższe wykresy pozwalają ponownie stwierdzić, iż osoby uczestniczące w zajęciach dodatkowych osiągają lepsze wyniki w nauce.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Interpretacja czasu spędzonego na grach daje całkiem intuicyjne wnioski tzn. osoby z wyższą średnią poświęcają mniej czasu na tego typu rozrywkę niż w przypadku osób o niższej średniej ocen. <br></p>
+<p>Na podstawie powyższej analizy, możemy znów wyznaczyć sylwetkę idealnego kandydata, tym razem na znacznie bardziej reprezentatywnej próbce oraz stosunkowo niewielką utratą na średniej z ocen *(spadek o około 0,19). Wciąż świadczy to jednak o wysokich wynikach w nauce. <br> Płeć: kobieta(niewielki wpływ)<br> Miejsce zamieszkania: brak istotnego wpływu <br> Praca: Brak <br> Zajęcia dodatkowe: tak <br> Gaming: &lt;3godziny <br> Angielski: Wyoski poziom nie jest wymagany</p>
+</section>
+<section id="analiza-czynników-dotyczących-bycia-studentem" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="analiza-czynników-dotyczących-bycia-studentem"><span class="header-section-number">10.2</span> Analiza czynników dotyczących bycia studentem</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div style="font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 10px; color=black;">Przygotowanie - Klaster - Obecność</div>
+<div id="htmlwidget-b20dc2a931752ae4f30d" style="width:100%;height:464px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b20dc2a931752ae4f30d">{"x":{"links":{"source":[0,0,1,1,2,2,3,3,3,3,4,4,4,4],"target":[3,4,3,4,3,4,5,6,7,8,5,6,7,8],"value":[68,150,180,48,38,9,10,91,184,1,58,126,13,10]},"nodes":{"name":["0-1 Hour","2-3 Hours","More than 3 Hours","1","2","40%-59%","60%-79%","80%-100%","Below 40%"],"group":["0-1 Hour","2-3 Hours","More than 3 Hours","1","2","40%-59%","60%-79%","80%-100%","Below 40%"]},"options":{"NodeID":"label","NodeGroup":"label","LinkGroup":null,"colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":12,"fontFamily":null,"nodeWidth":30,"nodePadding":15,"units":"Liczność","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":0,"sinksRight":true}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Powyższe wykresy przedstawiają rozkład pewnych cech dotyczących nie kandydatów, a osób już studiujących i potwierdzają wnioski wysnute dla ogółu ankietowanych. Ponownie widzimy, że wraz ze osoby z lepszą frekwencją i większą liczbą godzin poświęconych na dodatkową naukę osiągją lepsze wyniki.</p>
+</section>
+</section>
+<section id="analiza-regresji-slr-model" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Analiza regresji, SLR Model</h1>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Overall ~ Last, data = data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.75584 -0.13636 -0.00446  0.08925  1.65855 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.48819    0.05104   9.564   &lt;2e-16 ***
+Last         0.85344    0.01581  53.974   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.225 on 491 degrees of freedom
+Multiple R-squared:  0.8558,    Adjusted R-squared:  0.8555 
+F-statistic:  2913 on 1 and 491 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<section id="założenia" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="założenia"><span class="header-section-number">11.1</span> Założenia</h2>
+<section id="relacja-liniowa" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="relacja-liniowa"><span class="header-section-number">11.1.1</span> Relacja liniowa</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Założenie to jest spełnione- w calym obszarze zmiennosci Y reszty rozkładają się równomiernie - linia jest względnie prosta.</p>
+</section>
+<section id="reszty-mają-rozkład-normalny" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="reszty-mają-rozkład-normalny"><span class="header-section-number">11.1.2</span> Reszty mają rozkład normalny</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-38-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Warunek spełniony- Reszty rozkładają się zgodnie z rozkładem normalnym.</p>
+</section>
+<section id="homoscedastyczność" class="level3" data-number="11.1.3">
+<h3 data-number="11.1.3" class="anchored" data-anchor-id="homoscedastyczność"><span class="header-section-number">11.1.3</span> Homoscedastyczność</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Warunek spełniony - reszty maja porownywalna wariancje w calym obszarze zmiennosci zmiennej x</p>
+</section>
+<section id="znaczenie-wartosci-ekstremalnych" class="level3" data-number="11.1.4">
+<h3 data-number="11.1.4" class="anchored" data-anchor-id="znaczenie-wartosci-ekstremalnych"><span class="header-section-number">11.1.4</span> Znaczenie wartosci ekstremalnych</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-40-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Projekt_quarto_files/figure-html/unnamed-chunk-40-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Warunek spełniony- żadne obserwacje nie zmieniają znacząco modelu</p>
+</section>
+</section>
+</section>
+<section id="link-do-github" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Link do Github</h1>
+<p><a href="https://github.com/Dawid-Palka/MPiWD-Projekt" class="uri">https://github.com/Dawid-Palka/MPiWD-Projekt</a></p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
